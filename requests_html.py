@@ -779,7 +779,15 @@ class BaseSession(requests.Session):
     @property
     async def browser(self):
         if not hasattr(self, "_browser"):
-            self._browser = await pyppeteer.launch(ignoreHTTPSErrors=not(self.verify), headless=True, args=['--no-sandbox'])
+            self._browser = await pyppeteer.launch(ignoreHTTPSErrors=not(self.verify), headless=True, 
+        executablePath='/root/headless-chromium',
+        args=[
+            '--no-sandbox',
+            '--single-process',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-zygote'
+        ])
 
         return self._browser
 
